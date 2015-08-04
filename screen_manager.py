@@ -1,4 +1,4 @@
-import pygame
+import sys, pygame
 from pygame.locals import *
 
 from screen import GameScreen
@@ -9,17 +9,27 @@ class ScreenManager:
         pygame.init()
         
         self.screen = pygame.display.set_mode((640,480))
-        self.continuer = True
         self.current_screen = GameScreen(self.screen)
+        self.clock = pygame.time.Clock()
         
     def run(self):
-        while self.continuer:            
+        
+        while 1:            
+            new_time = pygame.time.get_ticks()
             
-            self.event = pygame.event.wait()
-            
-            if self.event.type == pygame.QUIT:
-                self.continuer = False
+            for event in pygame.event.get():
                 
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                else:
+                    self.current_screen.manageEvents(event)
+                    
+            self.current_screen.update()
+            
+            #clear screen
+            self.screen.fill((0, 0, 0))
+            
             self.current_screen.render()
             
             pygame.display.flip()
+            self.clock.tick(15)
