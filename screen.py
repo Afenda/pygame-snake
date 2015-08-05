@@ -1,7 +1,7 @@
 import pygame
 
 from snake import Snake
-from defines import Directions
+from defines import *
 
 class Screen:
     def __init__(self, screen):
@@ -14,7 +14,9 @@ class GameScreen(Screen):
         
         self.snake = Snake()
         self.snake_dir = Directions.RIGHT
-        self.img = pygame.image.load("assets/img/face.png").convert()
+        self.inPause = False
+        self.pauseImg = pygame.image.load('assets/img/pause.png').convert();
+        self.pauseImg.set_colorkey(Defines.COLORKEY)
      
     def manageEvents(self, event):
         #For testing Keyboard use event.dict['unicode'] because in default keyboard type is in American
@@ -27,17 +29,28 @@ class GameScreen(Screen):
                 self.snake_dir = Directions.LEFT
             elif event.dict['unicode'] == "d" or event.key == pygame.K_RIGHT:
                 self.snake_dir = Directions.RIGHT
+            elif event.key == pygame.K_SPACE:
+                self.inPause = False if self.inPause else True 
     
     def update(self):
-        if self.snake_dir == Directions.RIGHT:
-            self.snake.move(self.snake.position_x + 2, self.snake.position_y)
-        elif self.snake_dir == Directions.LEFT:
-            self.snake.move(self.snake.position_x - 2, self.snake.position_y)
-        elif self.snake_dir == Directions.UP:
-            self.snake.move(self.snake.position_x, self.snake.position_y - 2)
-        elif self.snake_dir == Directions.DOWN:
-            self.snake.move(self.snake.position_x, self.snake.position_y + 2)
+        if self.snake.inLife:
+            if not self.inPause:
+                if self.snake_dir == Directions.RIGHT:
+                    self.snake.move(self.snake.head_x + Defines.SNAKE_SIZE + 1, self.snake.head_y)
+                elif self.snake_dir == Directions.LEFT:
+                    self.snake.move(self.snake.head_x - Defines.SNAKE_SIZE - 1, self.snake.head_y)
+                elif self.snake_dir == Directions.UP:
+                    self.snake.move(self.snake.head_x, self.snake.head_y - Defines.SNAKE_SIZE - 1)
+                elif self.snake_dir == Directions.DOWN:
+                    self.snake.move(self.snake.head_x, self.snake.head_y + Defines.SNAKE_SIZE + 1)
     
     def render(self):
-        self.screen.blit(self.img, (20,20))
         self.snake.render(self.screen)
+        if not self.snake.inLife:
+            imgDie = pygame.Surface((640,480))
+            imgDie.set_alpha(128)
+            imgDie.fill((255, 0, 0))
+            self.screen.blit(imgDie, (0, 0))
+            
+        if self.inPause:
+            self.screen.blit(self.pauseImg, (195, 215))

@@ -2,6 +2,7 @@ import sys, pygame
 from pygame.locals import *
 
 from screen import GameScreen
+from defines import Defines
 
 class ScreenManager:
     def __init__(self):
@@ -9,6 +10,7 @@ class ScreenManager:
         pygame.init()
         
         self.screen = pygame.display.set_mode((640,480))
+        pygame.display.set_caption('Pygame - Snake')
         self.current_screen = GameScreen(self.screen)
         self.clock = pygame.time.Clock()
         
@@ -27,9 +29,9 @@ class ScreenManager:
             self.current_screen.update()
             
             #clear screen
-            self.screen.fill((0, 0, 0))
+            self.screen.fill(Defines.BLUE)
             
             self.current_screen.render()
             
             pygame.display.flip()
-            self.clock.tick(15)
+            self.clock.tick(5)
