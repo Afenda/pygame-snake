@@ -1,5 +1,7 @@
 import pygame
 
+from random import randint
+
 from snake import Snake
 from defines import *
 
@@ -17,7 +19,8 @@ class GameScreen(Screen):
         self.inPause = False
         self.pauseImg = pygame.image.load('assets/img/pause.png').convert();
         self.pauseImg.set_colorkey(Defines.COLORKEY)
-     
+        self.apple = (20,20)
+        
     def manageEvents(self, event):
         #For testing Keyboard use event.dict['unicode'] because in default keyboard type is in American
         if event.type == pygame.KEYDOWN:
@@ -43,6 +46,12 @@ class GameScreen(Screen):
                     self.snake.move(self.snake.head_x, self.snake.head_y - Defines.SNAKE_SIZE - 1)
                 elif self.snake_dir == Directions.DOWN:
                     self.snake.move(self.snake.head_x, self.snake.head_y + Defines.SNAKE_SIZE + 1)
+                    
+                if self.snake.head_x == self.apple[0] and self.snake.head_y == self.apple[1]:
+                    self.apple = (randint(0, 31) * 20, randint(0, 23) * 20)
+                    self.snake.snake_length = self.snake.snake_length + 1
+                    self.snake.snake_coords.insert(0, [self.snake.head_x, self.snake.head_y])
+                    
     
     def render(self):
         self.snake.render(self.screen)
@@ -51,6 +60,8 @@ class GameScreen(Screen):
             imgDie.set_alpha(128)
             imgDie.fill((255, 0, 0))
             self.screen.blit(imgDie, (0, 0))
+
+        pygame.draw.rect(self.screen, Defines.RED, [self.apple[0], self.apple[1], Defines.SNAKE_SIZE, Defines.SNAKE_SIZE])
             
         if self.inPause:
             self.screen.blit(self.pauseImg, (195, 215))

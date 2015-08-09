@@ -7,6 +7,7 @@ class Snake:
         self.head_x = 200
         self.head_y = 200
         self.snake_coords = []
+        self.snake_length = Defines.SNAKE_INIT_LENGTH
         for i in range(Defines.SNAKE_INIT_LENGTH):
             self.snake_coords.append([self.head_x - (20 * i), self.head_y])
         
@@ -20,5 +21,5 @@ class Snake:
             self.snake_coords.pop()
         
     def render(self, screen):
-        for i in range(Defines.SNAKE_INIT_LENGTH):
+        for i in range(self.snake_length):
             pygame.draw.rect(screen, Defines.GREEN, [self.snake_coords[i][0], self.snake_coords[i][1], Defines.SNAKE_SIZE, Defines.SNAKE_SIZE])

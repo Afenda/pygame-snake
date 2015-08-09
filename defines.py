@@ -3,6 +3,7 @@ class Defines:
     COLORKEY = (0, 255, 255)
     
     GREEN = (0, 255, 0)
+    RED = (255, 0, 0)
     BLUE = (6, 105 , 178)
     SNAKE_SIZE = 19
     SNAKE_INIT_LENGTH = 3
