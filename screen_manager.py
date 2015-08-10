@@ -1,7 +1,8 @@
 import sys, pygame
 from pygame.locals import *
 
-from screen import GameScreen
+from game_screen import GameScreen
+from menu_screen import MenuScreen
 from defines import Defines
 
 class ScreenManager:
@@ -11,7 +12,8 @@ class ScreenManager:
         
         self.screen = pygame.display.set_mode((640,480))
         pygame.display.set_caption('Pygame - Snake')
-        self.current_screen = GameScreen(self.screen)
+        #self.current_screen = GameScreen(self.screen)
+        #self.current_screen = MenuScreen(self.screen)
         self.clock = pygame.time.Clock()
         
     def run(self):
@@ -26,7 +28,7 @@ class ScreenManager:
                 else:
                     self.current_screen.manageEvents(event)
                     
-            self.current_screen.update()
+            self.current_screen = self.current_screen.update()
             
             #clear screen
             self.screen.fill(Defines.BLUE)
