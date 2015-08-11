@@ -13,7 +13,7 @@ class ScreenManager:
         self.screen = pygame.display.set_mode((640,480))
         pygame.display.set_caption('Pygame - Snake')
         #self.current_screen = GameScreen(self.screen)
-        #self.current_screen = MenuScreen(self.screen)
+        self.current_screen = MenuScreen(self.screen)
         self.clock = pygame.time.Clock()
         
     def run(self):
