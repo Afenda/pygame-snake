@@ -17,6 +17,9 @@ class GameScreen(Screen):
         self.pauseImg = pygame.image.load('assets/img/pause.png').convert();
         self.pauseImg.set_colorkey(Defines.COLORKEY)
         self.apple = (20,20)
+        self.score = 0;
+        self.font = pygame.font.Font("assets/fonts/blogger-sans.ttf", 24)
+        self.scoretxt = self.font.render("score %d" % self.score, True, (0, 0, 0))
         
     def manageEvents(self, event):
         #For testing Keyboard use event.dict['unicode'] because in default keyboard type is in American
@@ -45,6 +48,8 @@ class GameScreen(Screen):
                     self.snake.move(self.snake.head_x, self.snake.head_y + Defines.SNAKE_SIZE + 1)
                     
                 if self.snake.head_x == self.apple[0] and self.snake.head_y == self.apple[1]:
+                    self.score += 10
+                    self.scoretxt = self.font.render("score %d" % self.score, True, (0, 0, 0))
                     self.apple = (randint(0, 31) * 20, randint(0, 23) * 20)
                     self.snake.snake_length = self.snake.snake_length + 1
                     self.snake.snake_coords.insert(0, [self.snake.head_x, self.snake.head_y])
@@ -59,6 +64,8 @@ class GameScreen(Screen):
             imgDie.set_alpha(128)
             imgDie.fill((255, 0, 0))
             self.screen.blit(imgDie, (0, 0))
+
+        self.screen.blit(self.scoretxt, (10, 5))
 
         pygame.draw.rect(self.screen, Defines.RED, [self.apple[0], self.apple[1], Defines.SNAKE_SIZE, Defines.SNAKE_SIZE])
             

@@ -17,6 +17,10 @@ class Snake:
         else:
             self.head_x = x
             self.head_y = y
+            
+            if [x, y] in self.snake_coords:
+                self.inLife = False
+            
             self.snake_coords.insert(0, [self.head_x, self.head_y])
             self.snake_coords.pop()
         

@@ -1,3 +1,5 @@
 /nbproject/private/
 /nbproject/
 /__pycache__/
+/cx_freeze.bat
+/setup.py
