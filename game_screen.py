@@ -19,7 +19,9 @@ class GameScreen(Screen):
         self.apple = (20,20)
         self.score = 0;
         self.font = pygame.font.Font("assets/fonts/blogger-sans.ttf", 24)
+        self.fontL = pygame.font.Font("assets/fonts/blogger-sans.ttf", 48)
         self.scoretxt = self.font.render("score %d" % self.score, True, (0, 0, 0))
+        self.txtloose = self.fontL.render("You Loose", True, (0, 0, 0))
         
     def manageEvents(self, event):
         #For testing Keyboard use event.dict['unicode'] because in default keyboard type is in American
@@ -56,7 +58,6 @@ class GameScreen(Screen):
                     
         return self
                     
-    
     def render(self):
         self.snake.render(self.screen)
         if not self.snake.inLife:
@@ -64,6 +65,7 @@ class GameScreen(Screen):
             imgDie.set_alpha(128)
             imgDie.fill((255, 0, 0))
             self.screen.blit(imgDie, (0, 0))
+            self.screen.blit(self.txtloose, (320 - self.txtloose.get_width() // 2,200))
 
         self.screen.blit(self.scoretxt, (10, 5))
 
